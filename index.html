@@ -1,0 +1,137 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale">
+<title>Web Latihan Saya</title>
+</head>
+<body>
+	<style type="text/css">
+    	body {
+            background-color: lightgray;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: blue;
+        }
+
+        p {
+            color: black;
+        }
+
+        img {
+            width: 300px;
+            border-radius: 15px;
+            display: block;
+            margin: 20px auto;
+
+        }
+
+        button {
+            background-color: green;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            align-content: center;
+        }
+
+        button:hover {
+            background-color: orange;
+        }
+    </style>
+
+    <h1>Selamat Datang di Web Saya</h1>
+    <p>Nama: Dinda Syafina Zahrani</p>
+    <p>Kelas: XII - PPLG</p>
+    <img src="dinda.jpeg">
+    <button onclick="klikSaya()">Klik Saya</button>
+
+    <form method="POST" enctype="multipart/form-data" onsubmit="kirimDokumen(event)">
+        <input type="file" id="fileDokumen" name="fileDokumen" accept=".docx" onchange="tampilkanFile()">
+    <br><br>
+    <button type="submit">Kirim Dokumen</button>
+    </form>
+
+    <p id="infoFile"></p>
+
+    <div id="progressContainer" style="display:none; width:300px; margin:20px auto;">
+    <div id="progressBar" 
+         style="width:0%; height:25px; background-color:green; color:white; text-align:center; line-height:25px;">
+        0%
+    </div>
+    </div>
+
+    <script>
+        function klikSaya() {
+            alert("Halo, selamat belajar JavaScript!");
+            let sekarang = new Date();
+            alert(
+                "Tanggal dan waktu saat ini:\n" +
+                sekarang.toLocaleString("id-ID")
+            );
+        }
+
+        function tampilkanFile() {
+            let inputFile = document.getElementById("fileDokumen");
+            let infoFile = document.getElementById("infoFile");
+
+            if (inputFile.files.length > 0) {
+            let file = inputFile.files[0];
+
+            if (!file.name.toLowerCase().endsWith(".docx")) {
+                alert("File harus berformat DOCX!");
+
+            inputFile.value = "";
+            infoFile.innerHTML = "";
+
+            return;
+            }
+
+        infoFile.innerHTML =
+            "File yang dipilih: <b>" + file.name + "</b>";
+            }
+        }
+
+        function kirimDokumen(event) {
+        event.preventDefault();
+        let inputFile = document.getElementById("fileDokumen");
+        let infoFile = document.getElementById("infoFile");
+
+        if (inputFile.files.length === 0) {
+            alert("Silakan pilih file DOCX terlebih dahulu!");
+            return;
+        }
+
+        let file = inputFile.files[0];
+        if (!file.name.toLowerCase().endsWith(".docx")) {
+            alert("File harus berformat DOCX!");
+            return;
+        }
+
+        infoFile.innerHTML =
+            "Nama file: <b>" + file.name + "</b><br>" +
+            "Ukuran: " + (file.size / 1024).toFixed(2) +    " KB<br>" +
+            "Tipe file: " + file.type + "<br><br>" +
+            "<b>Dokumen DOCX siap dikirim.</b>";    
+        alert("Dokumen DOCX siap dikirim.");
+        
+        let container = document.getElementById("progressContainer");
+        let bar = document.getElementById("progressBar");
+        container.style.display = "block";
+        let progress = 0;
+        let proses = setInterval(function() {
+            progress += 10;
+            bar.style.width = progress + "%";
+            bar.innerHTML = progress + "%";
+            if (progress >= 100) {
+                clearInterval(proses);
+                alert("Dokumen DOCX siap dikirim.");
+            }
+        }, 300);
+    }
+    </script>
+</body>
